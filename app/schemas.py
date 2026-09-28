@@ -1,22 +1,14 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
-
-
-class QuotePoint(BaseModel):
-    symbol: str
-    price: float
-    previous_close: Optional[float] = None
-    change: Optional[float] = None
-    change_pct: Optional[float] = None
-    market_status: Optional[str] = None
-    timestamp: Optional[datetime] = None
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class QuoteResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     symbol: str
     price: float
     previous_close: Optional[float] = None
@@ -65,3 +57,16 @@ class SignalResponse(BaseModel):
 class WatchlistResponse(BaseModel):
     symbols: List[str]
     data: List[QuoteResponse]
+
+
+class ProviderStatus(BaseModel):
+    name: str
+    configured: bool
+    supported: bool
+    note: str = "Research-only provider status."
+
+
+class ProviderStatusResponse(BaseModel):
+    configured_provider: str
+    providers: List[ProviderStatus]
+    research_only: bool = True

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from dataclasses import dataclass
 
@@ -12,6 +14,8 @@ class Settings:
     finnhub_api_key: str = ""
     polygon_api_key: str = ""
     request_timeout_seconds: int = 10
+    cache_db_path: str = "./data/cache.db"
+    default_symbols: str = "AAPL,MSFT,NVDA,AMZN,GOOGL"
 
 
 def _get_bool(value: str | None, default: bool) -> bool:
@@ -29,4 +33,6 @@ settings = Settings(
     finnhub_api_key=os.getenv("FINNHUB_API_KEY", ""),
     polygon_api_key=os.getenv("POLYGON_API_KEY", ""),
     request_timeout_seconds=int(os.getenv("REQUEST_TIMEOUT_SECONDS", "10")),
+    cache_db_path=os.getenv("CACHE_DB_PATH", "./data/cache.db"),
+    default_symbols=os.getenv("DEFAULT_SYMBOLS", "AAPL,MSFT,NVDA,AMZN,GOOGL"),
 )
